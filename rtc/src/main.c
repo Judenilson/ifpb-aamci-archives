@@ -180,24 +180,20 @@ void getValueRTC(RTC_FullCalendarTypeDef *calendarNow)
     calendarNow->anoUnidade = RTC->DR & RTC_DR_YU;
     calendarNow->anoDezena = RTC->DR & RTC_DR_YT;
 }
+char diaDaSemana[8][15] = {"proibido", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"};
+char mesD[11][10] = {"proibido", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro"};
+char mesU[3][10] = {"outubro", "novembro", "dezembro"};
+char mesNow[10];
 
-char diaSemana(int d)
+void mes(int d, int u)
 {
-    char dia[8][15] = {"proibido", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"};
-    return dia[d][15];
-}
-
-char mes(int d, int u)
-{
-    if (d == 0)
+    if (!d)
     {
-        char mes[11][10] = {"proibido", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro"};
-        return mes[u][10];
+        strcpy(mesNow, mesD[u]);
     }
     else
     {
-        char mes[3][10] = {"outubro", "novembro", "dezembro"};
-        return mes[u][10];
+        strcpy(mesNow, mesU[u]);
     }
 }
 
@@ -250,27 +246,45 @@ int main()
             // Aqui deve ser colocado o envio da String com a data. O formato é:
             // Hoje é quarta-feira, 05 de junho de 2019.
             // A hora atual é 09:15:20.
-
+            char concatenar[20];
             char textoEnviar[120] = "Hoje é ";
 
-            strcpy(textoEnviar, diaSemana(calendar.dia));
-            strcpy(textoEnviar, ", ");
-            strcpy(textoEnviar, calendar.dataDezena);
-            strcpy(textoEnviar, calendar.dataUnidade);
-            strcpy(textoEnviar, " de ");
-            strcpy(textoEnviar, mes(calendar.mesDezena, calendar.mesUnidade));
-            strcpy(textoEnviar, " de ");
-            strcpy(textoEnviar, calendar.anoDezena);
-            strcpy(textoEnviar, calendar.anoUnidade);
-            strcpy(textoEnviar, ".\nA hora atual é ");
-            strcpy(textoEnviar, calendar.horasDezena);
-            strcpy(textoEnviar, calendar.horasUnidade);
-            strcpy(textoEnviar, ":");
-            strcpy(textoEnviar, calendar.minutosDezena);
-            strcpy(textoEnviar, calendar.minutosUnidade);
-            strcpy(textoEnviar, ":");
-            strcpy(textoEnviar, calendar.segundosDezena);
-            strcpy(textoEnviar, calendar.segundosUnidade);
+            strncat(textoEnviar, diaDaSemana[calendar.dia], 12);
+            strcpy(concatenar, ", ");
+            strncat(textoEnviar, concatenar, 2);
+            sprintf(concatenar, "%d", calendar.dataDezena);
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.dataUnidade);
+            strncat(textoEnviar, concatenar, 1);
+            strcpy(concatenar, " de ");
+            strncat(textoEnviar, concatenar, 4);
+            sprintf(concatenar, "%d", calendar.dataUnidade);
+            strncat(textoEnviar, concatenar, 1);
+            strncat(textoEnviar, mesNow, 9);
+            strcpy(concatenar, " de 20");
+            strncat(textoEnviar, concatenar, 6);
+            sprintf(concatenar, "%d", calendar.anoDezena);
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.anoUnidade);
+            strncat(textoEnviar, concatenar, 1);
+            strcpy(concatenar, ".\nA hora atual é ");
+            strncat(textoEnviar, concatenar, 18);
+            sprintf(concatenar, "%d", calendar.horasDezena);
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.horasUnidade);
+            strncat(textoEnviar, concatenar, 1);
+            strcpy(concatenar, ":");
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.minutosDezena);
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.minutosUnidade);
+            strncat(textoEnviar, concatenar, 1);
+            strcpy(concatenar, ":");
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.segundosDezena);
+            strncat(textoEnviar, concatenar, 1);
+            sprintf(concatenar, "%d", calendar.segundosUnidade);
+            strncat(textoEnviar, concatenar, 1);
 
             sendString(textoEnviar);
         }
