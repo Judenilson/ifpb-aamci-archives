@@ -183,7 +183,7 @@ void getValueRTC(RTC_FullCalendarTypeDef *calendarNow)
 
 char diaSemana(int d)
 {
-    char dia[8][15] = {"Proibido", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"};
+    char dia[8][15] = {"proibido", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"};
     return dia[d][15];
 }
 
@@ -191,8 +191,8 @@ char mes(int d, int u)
 {
     if (d == 0)
     {
-        char med[11][10] = {"proibido", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro"};
-        return med[u][10];
+        char mes[11][10] = {"proibido", "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro"};
+        return mes[u][10];
     }
     else
     {
